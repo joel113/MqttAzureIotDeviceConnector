@@ -36,7 +36,7 @@ public class MqttAzureIotDeviceConnector {
 		final MqttSubject eventSubject = new MqttSubject(broker, clientId, topic);
 		eventSubject.connect();
 		
-		final AzureSubject azureSubject = new AzureSubject("HostName=temp-at-homecaa07.azure-devices.net;DeviceId=esp01-1;SharedAccessKey=0ReqIT63NCn2+e+x6Wy26r1cVn0OOYRq6q7rMX7i56k=");
+		final AzureSubject azureSubject = new AzureSubject("");
 		azureSubject.connect();	
 		
 		final Observable<String> events = eventSubject.observe().doOnSubscribe(new Action0() {
@@ -55,12 +55,12 @@ public class MqttAzureIotDeviceConnector {
 				log.info(String.format("Received sensor event with content %s.", json));
 				Gson gson = new Gson();
 				TemperatureSensor temperatureSensor = gson.fromJson(json, TemperatureSensor.class);
-				TemperatureMessage temperatureMessage = new TemperatureMessage("esp01-1",temperatureSensor.getTemperature(), temperatureSensor.getHumidity());
+				TemperatureMessage temperatureMessage = new TemperatureMessage("",temperatureSensor.getTemperature(), temperatureSensor.getHumidity());
 				return gson.toJson(temperatureMessage);
 			}	
 		}).doOnNext(new Action1<String>() {
 			@Override
-			public void call(String string) {
+			public void call(String string) {sp01-1
 				log.info(String.format("Processed sensor event with content %s.", string));
 			}
 		});				
@@ -82,8 +82,8 @@ public class MqttAzureIotDeviceConnector {
     		System.out.println(ex);
     	}
     	
-    	MqttAzureIotDeviceConnector processor = new MqttAzureIotDeviceConnector("tcp://joel-flocke:1883");
-    	processor.startProcessing("event-processor-coppola-sensor","/joel-weatherman/sensor");
+    	MqttAzureIotDeviceConnector processor = new MqttAzureIotDeviceConnector("");
+    	processor.startProcessing("","");
     	
     }
     
